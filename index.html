@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete UA Generator</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Hubungkan ke File CSS Eksternal -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="header container">
+        <h1>Complete UA Generator</h1>
+        <p>Setiap hasil generate dijamin 100% unik dan tidak akan sama.</p>
+    </header>
+
+    <main class="container">
+        <div class="generator-card">
+            <div class="form-group">
+                <label for="osSelect">Pilih Sistem Operasi</label>
+                <select id="osSelect"></select>
+            </div>
+            <div class="form-group">
+                <label for="deviceSelect">Pilih Tipe Perangkat</label>
+                <select id="deviceSelect"></select>
+            </div>
+            <button id="generateBtn" class="btn btn-primary">Hasilkan User Agent 100% Fresh</button>
+            <div class="output-container">
+                <p id="uaOutput">Hasil akan muncul di sini...</p>
+                <button id="copyBtn" class="btn btn-secondary" style="margin-top: 1rem;">Salin</button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025. Dibuat untuk kemudahan Anda.</p>
+    </footer>
+
+    <div id="copyFeedback" class="copy-feedback">Tersalin ke clipboard!</div>
+
+    <!-- Hubungkan ke File JavaScript Eksternal (defer penting!) -->
+    <script src="script.js" defer></script>
+
+</body>
+</html>
