@@ -1,4 +1,3 @@
-javascript
 document.addEventListener('DOMContentLoaded', () => {
     // --- Referensi Elemen DOM ---
     const osSelect = document.getElementById('osSelect');
