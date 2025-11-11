@@ -5,14 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Complete UA Generator</title>
 
-    <!-- Link ke Manifest PWA -->
-    <link rel="manifest" href="manifest.json">
-    <!-- Warna Tema untuk address bar browser -->
-    <meta name="theme-color" content="#28a745">
-
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
     <!-- Hubungkan ke File CSS -->
@@ -45,27 +40,33 @@
 
     <footer class="footer">
         <p>&copy; 2025. Dibuat untuk kemudahan Anda.</p>
+        <!-- Tombol Tutorial (BAGIAN BARU) -->
+        <a id="openTutorialBtn" class="tutorial-link">Klik Untuk Melihat Tutorial</a>
     </footer>
 
     <div id="copyFeedback" class="copy-feedback">Tersalin ke clipboard!</div>
 
-    <!-- Hubungkan ke File JavaScript utama -->
+    <!-- MODAL UNTUK VIDEO TUTORIAL (BAGIAN BARU) -->
+    <div id="tutorialModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Video Tutorial</h2>
+            <div class="video-container">
+                <!-- GANTI LINK VIDEO DI BAWAH INI DENGAN LINK EMBED YOUTUBE MILIKMU -->
+                <iframe 
+                    id="tutorialVideo" 
+                    src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                    title="YouTube video player" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hubungkan ke File JavaScript -->
     <script src="script.js" defer></script>
-    
-    <!-- Script untuk mendaftarkan Service Worker -->
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
-            .then(registration => {
-              console.log('Service Worker berhasil didaftarkan: ', registration);
-            })
-            .catch(error => {
-              console.log('Pendaftaran Service Worker gagal: ', error);
-            });
-        });
-      }
-    </script>
 
 </body>
 </html>
