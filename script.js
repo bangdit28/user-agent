@@ -144,32 +144,27 @@ document.addEventListener('DOMContentLoaded', () => {
     generateBtn.addEventListener('click', generateUserAgent);
     copyBtn.addEventListener('click', copyToClipboard);
 
-    // --- MODAL LOGIC (BAGIAN BARU) ---
+    // --- MODAL LOGIC ---
     const tutorialModal = document.getElementById('tutorialModal');
     const openTutorialBtn = document.getElementById('openTutorialBtn');
     const closeBtn = document.querySelector('.modal .close-btn');
     const tutorialVideo = document.getElementById('tutorialVideo');
-    const videoSrc = tutorialVideo.src; // Simpan src asli
-    tutorialVideo.src = ""; // Kosongkan src saat awal
+    const videoSrc = tutorialVideo.src;
+    tutorialVideo.src = ""; // Kosongkan src saat awal untuk performa
 
-    // Fungsi untuk membuka modal
     const openModal = () => {
-        tutorialVideo.src = videoSrc; // Set src saat modal dibuka
+        tutorialVideo.src = videoSrc;
         tutorialModal.classList.add('show');
     };
 
-    // Fungsi untuk menutup modal
     const closeModal = () => {
         tutorialModal.classList.remove('show');
-        // Hentikan video dengan mengosongkan src lagi
-        tutorialVideo.src = ""; 
+        tutorialVideo.src = ""; // Hentikan video dengan mengosongkan src
     };
 
-    // Event listeners untuk modal
     openTutorialBtn.addEventListener('click', openModal);
     closeBtn.addEventListener('click', closeModal);
 
-    // Tutup modal jika klik di luar area konten video
     window.addEventListener('click', (event) => {
         if (event.target == tutorialModal) {
             closeModal();
