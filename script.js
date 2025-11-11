@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const getRandomLetter = () => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[getRandomInt(0, 25)];
 
     const dynamicGenerators = {
-        // Android Model Generators
+        // ... (Semua generator dinamis tetap sama)
         samsungS: () => `SM-S9${getRandomInt(10, 99)}${getRandomLetter()}`,
         samsungA: () => `SM-A${getRandomInt(10, 99)}6${getRandomLetter()}`,
         samsungF: () => `SM-F${getRandomInt(7, 9)}3${getRandomInt(1, 9)}${getRandomLetter()}`,
@@ -59,16 +59,12 @@ document.addEventListener('DOMContentLoaded', () => {
         sonyXperia: () => `XQ-${getRandomLetter()}${getRandomLetter()}${getRandomInt(10, 99)}`,
         asusROG: () => `AI${getRandomInt(22, 23)}0${getRandomInt(1, 5)}-${getRandomLetter()}`,
         motorola: () => `XT${getRandomInt(2100, 2400)}-${getRandomInt(1, 5)}`,
-        
-        // iOS Model Generators
         iphoneHigh: () => `iPhone${getRandomInt(15,16)},${getRandomInt(1,3)}`,
         iphoneMid: () => `iPhone${getRandomInt(14,15)},${getRandomInt(4,8)}`,
         iphoneSE: () => `iPhone14,6`,
         ipadPro: () => `iPad${getRandomInt(13, 14)},${getRandomInt(8, 11)}`,
         ipadAir: () => `iPad13,${getRandomInt(1, 2)}`,
         ipadStandard: () => `iPad${getRandomInt(12, 13)},${getRandomInt(1, 7)}`,
-
-        // Component Generators
         chromeVersion: () => `${getRandomInt(115, 120)}.0.${getRandomInt(5000, 6100)}.${getRandomInt(1, 199)}`,
         safariVersion: () => `${getRandomInt(15, 17)}.${getRandomInt(1, 6)}`,
         iosBuild: () => `${getRandomInt(15, 21)}${getRandomLetter()}${getRandomInt(100, 500)}`,
@@ -96,7 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
         let finalUA;
         let attempts = 0;
 
-        // --- LOOP ANTI-DUPLIKAT ---
         do {
             const template = uaDatabase[selectedOS].template;
             const modelGenerator = dynamicGenerators[deviceData.generator];
@@ -148,4 +143,36 @@ document.addEventListener('DOMContentLoaded', () => {
     osSelect.addEventListener('change', (e) => populateDeviceSelect(e.target.value));
     generateBtn.addEventListener('click', generateUserAgent);
     copyBtn.addEventListener('click', copyToClipboard);
+
+    // --- MODAL LOGIC (BAGIAN BARU) ---
+    const tutorialModal = document.getElementById('tutorialModal');
+    const openTutorialBtn = document.getElementById('openTutorialBtn');
+    const closeBtn = document.querySelector('.modal .close-btn');
+    const tutorialVideo = document.getElementById('tutorialVideo');
+    const videoSrc = tutorialVideo.src; // Simpan src asli
+    tutorialVideo.src = ""; // Kosongkan src saat awal
+
+    // Fungsi untuk membuka modal
+    const openModal = () => {
+        tutorialVideo.src = videoSrc; // Set src saat modal dibuka
+        tutorialModal.classList.add('show');
+    };
+
+    // Fungsi untuk menutup modal
+    const closeModal = () => {
+        tutorialModal.classList.remove('show');
+        // Hentikan video dengan mengosongkan src lagi
+        tutorialVideo.src = ""; 
+    };
+
+    // Event listeners untuk modal
+    openTutorialBtn.addEventListener('click', openModal);
+    closeBtn.addEventListener('click', closeModal);
+
+    // Tutup modal jika klik di luar area konten video
+    window.addEventListener('click', (event) => {
+        if (event.target == tutorialModal) {
+            closeModal();
+        }
+    });
 });
