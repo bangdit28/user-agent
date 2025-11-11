@@ -1,72 +1,193 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Agent Generator</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User-Agent Generator Unlimited</title>
+  <style>
+    * { box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body { margin: 0; padding: 0; background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); color: #fff; display: flex; justify-content: center; align-items: center; height: 100vh; }
+    .container { background: rgba(255,255,255,0.08); backdrop-filter: blur(12px); border-radius: 16px; padding: 2rem; width: 92%; max-width: 720px; text-align: center; box-shadow: 0 0 25px rgba(0,0,0,0.45); }
+    h1 { margin-bottom: 0.25rem; font-weight: 600; }
+    p.lead { margin-top: 0; margin-bottom: 1rem; opacity: .9 }
+    .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: .6rem; }
+    select, button { width: 100%; padding: 0.85rem; border-radius: 8px; border: none; outline: none; font-size: 1rem; }
+    select { background: rgba(255,255,255,0.12); color: #fff; }
+    select option { color: #000; }
+    button.primary { background: #00adb5; color: #fff; cursor: pointer; transition: .25s; }
+    button.primary:hover { background: #03c6cf; }
+    .row { display: flex; gap: .6rem; margin-top: .6rem; }
+    .output { background: rgba(0,0,0,0.35); padding: 1rem; border-radius: 8px; word-break: break-all; margin-top: 1rem; font-size: 0.9rem; min-height: 64px; display:flex; align-items:center; justify-content:center }
+    .copy-btn { background: #393e46; color: #fff; border-radius: 8px; padding: 0.85rem; cursor: pointer; }
+    footer { margin-top: 1rem; font-size: 0.85rem; opacity: 0.85; display:flex; justify-content:space-between; align-items:center; gap:.5rem }
+    a.tutorial-link { color: #ffd166; cursor: pointer; text-decoration: underline; }
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    /* Modal styles */
+    .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; z-index: 9999; }
+    .modal { width: 95%; max-width: 900px; background: rgba(255,255,255,0.02); border-radius: 12px; padding: 0.75rem; box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
+    .modal-header { display:flex; justify-content:space-between; align-items:center; gap:.5rem; padding: .25rem .5rem; }
+    .modal-title { font-weight:600; }
+    .modal-close { background: transparent; border: none; color: #fff; font-size: 1.2rem; cursor: pointer; }
+    .modal-body { padding:.5rem; }
+    .video-wrap { position: relative; padding-top: 56.25%; /* 16:9 */ }
+    .video-wrap iframe { position: absolute; inset:0; width:100%; height:100%; border:0; border-radius:8px; }
 
-    <!-- Hubungkan ke File CSS -->
-    <link rel="stylesheet" href="style.css">
+    @media (max-width:600px){ .controls { grid-template-columns: 1fr; } .row { flex-direction: column; } }
+  </style>
 </head>
 <body>
+  <div class="container">
+    <h1>🧠 Unlimited User-Agent Generator</h1>
+    <p class="lead">Selalu fresh & tidak pernah duplikat 🔥 — sekarang dilengkapi tutorial video (GDrive)</p>
 
-    <header class="header container">
-        <h1>User Agent Generator</h1>
-        <p>Melangkah maju untuk berbeda device</p>
-    </header>
+    <div class="controls">
+      <select id="os">
+        <option value="Windows">Windows</option>
+        <option value="Mac OS">Mac OS</option>
+        <option value="Linux">Linux</option>
+        <option value="Android">Android</option>
+        <option value="iOS">iOS</option>
+      </select>
 
-    <main class="container">
-        <div class="generator-card">
-            <div class="form-group">
-                <label for="osSelect">Pilih Sistem Operasi</label>
-                <select id="osSelect"></select>
-            </div>
-            <div class="form-group">
-                <label for="deviceSelect">Pilih Tipe Perangkat</label>
-                <select id="deviceSelect"></select>
-            </div>
-            <button id="generateBtn" class="btn btn-primary">Hasilkan User Agent Fresh</button>
-            <div class="output-container">
-                <p id="uaOutput">Hasil akan muncul di sini...</p>
-                <button id="copyBtn" class="btn btn-secondary" style="margin-top: 1rem;">Salin</button>
-            </div>
-        </div>
-    main>
-
-    <footer class="footer">
-        <!-- POSISI TUTORIAL DIPERBAIKI -->
-        <a id="openTutorialBtn" class="tutorial-link">Klik Untuk Melihat Tutorial</a>
-        <p>&copy; 2025. Dibuat Oleh Bangdit</p>
-    </footer>
-
-    <div id="copyFeedback" class="copy-feedback">Tersalin ke clipboard!</div>
-
-    <!-- MODAL UNTUK VIDEO TUTORIAL -->
-    <div id="tutorialModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <h2>Video Tutorial</h2>
-            <div class="video-container">
-                <!-- GANTI LINK VIDEO DI BAWAH INI DENGAN LINK EMBED YOUTUBE MILIKMU -->
-                <iframe 
-                    id="tutorialVideo" 
-                    src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
-                    title="YouTube video player" 
-                    frameborder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen>
-                </iframe>
-            </div>
-        </div>
+      <select id="browser">
+        <option value="Chrome">Chrome</option>
+        <option value="Firefox">Firefox</option>
+        <option value="Safari">Safari</option>
+        <option value="Edge">Edge</option>
+        <option value="Opera">Opera</option>
+      </select>
     </div>
 
-    <!-- Hubungkan ke File JavaScript -->
-    <script src="script.js" defer></script>
+    <div class="row">
+      <button id="generate" class="primary">Generate User-Agent</button>
+      <button id="copy" class="copy-btn">Copy to Clipboard</button>
+    </div>
 
+    <div class="output" id="output">User-Agent akan muncul di sini...</div>
+
+    <footer>
+      <span>© 2025 Unlimited UA Generator by Bro 😎</span>
+      <!-- tutorial link opens modal -->
+      <a class="tutorial-link" id="openTutorial">Tutorial (lihat video)</a>
+    </footer>
+  </div>
+
+  <!-- Modal: tutorial video (Google Drive embed) -->
+  <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-header">
+        <div class="modal-title" id="modalTitle">Tutorial: Cara pakai User-Agent Generator</div>
+        <button class="modal-close" id="closeModal" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="video-wrap">
+          <!-- GANTI `YOUR_DRIVE_FILE_ID_HERE` DENGAN ID FILE GDRIVE KAMU -->
+          <!-- Format embed Google Drive: https://drive.google.com/file/d/FILE_ID/preview -->
+          <iframe id="gdrivePlayer" src="https://drive.google.com/file/d/YOUR_DRIVE_FILE_ID_HERE/preview" allow="autoplay; encrypted-media" allowfullscreen title="Tutorial"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const output = document.getElementById('output');
+    const generateBtn = document.getElementById('generate');
+    const copyBtn = document.getElementById('copy');
+    const generatedSet = new Set(); // simpan UA yang sudah dibuat agar tidak duplikat
+
+    const randomFloat = (min, max) => (Math.random() * (max - min) + min).toFixed(1);
+    const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+    const randomBuild = () => Math.random().toString(36).substring(2, 10).toUpperCase();
+
+    function generateUserAgent(os, browser) {
+      const ver = {
+        Chrome: randomFloat(100, 130),
+        Firefox: randomFloat(80, 125),
+        Safari: randomFloat(13, 17),
+        Edge: randomFloat(90, 130),
+        Opera: randomFloat(80, 110)
+      };
+
+      let ua = '';
+
+      switch (os) {
+        case 'Windows':
+          ua = `Mozilla/5.0 (Windows NT ${randomFloat(6.1, 10.0)}; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) ${browser}/${ver[browser]}.${randomInt(1000,9999)} Safari/537.36`;
+          break;
+        case 'Mac OS':
+          ua = `Mozilla/5.0 (Macintosh; Intel Mac OS X 10_${randomInt(13, 15)}_${randomInt(0, 9)}) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/${ver[browser]} Safari/605.1.15`;
+          break;
+        case 'Linux':
+          ua = `Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) ${browser}/${ver[browser]}.${randomInt(100,999)} Safari/537.36`;
+          break;
+        case 'Android':
+          ua = `Mozilla/5.0 (Linux; Android ${randomInt(7, 14)}; ${['Pixel','Samsung','Xiaomi','Realme','Oppo'][randomInt(0,4)]} ${randomInt(1,10)}) AppleWebKit/537.36 (KHTML, like Gecko) ${browser}/${ver[browser]}.${randomInt(100,999)} Mobile Safari/537.36`;
+          break;
+        case 'iOS':
+          ua = `Mozilla/5.0 (iPhone; CPU iPhone OS ${randomInt(13,18)}_${randomInt(0,9)} like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/${ver[browser]} Mobile/${randomBuild()} Safari/604.1`;
+          break;
+      }
+      return ua;
+    }
+
+    function getUniqueUserAgent(os, browser) {
+      let ua;
+      let tries = 0;
+      do {
+        ua = generateUserAgent(os, browser);
+        tries++;
+      } while (generatedSet.has(ua) && tries < 1000);
+      generatedSet.add(ua);
+      return ua;
+    }
+
+    generateBtn.addEventListener('click', () => {
+      const os = document.getElementById('os').value;
+      const browser = document.getElementById('browser').value;
+      const ua = getUniqueUserAgent(os, browser);
+      output.textContent = ua;
+    });
+
+    copyBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(output.textContent);
+        copyBtn.textContent = '✅ Copied!';
+        setTimeout(() => (copyBtn.textContent = 'Copy to Clipboard'), 1500);
+      } catch (e) {
+        copyBtn.textContent = '⚠️ Gagal copy';
+        setTimeout(() => (copyBtn.textContent = 'Copy to Clipboard'), 1500);
+      }
+    });
+
+    // --- Modal logic for tutorial ---
+    const openTutorial = document.getElementById('openTutorial');
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    const closeModal = document.getElementById('closeModal');
+    const gdrivePlayer = document.getElementById('gdrivePlayer');
+
+    function openModal() {
+      // jika pengguna belum meletakkan ID GDrive, beri feedback lewat src placeholder
+      modalBackdrop.style.display = 'flex';
+      modalBackdrop.setAttribute('aria-hidden', 'false');
+      // autoplay tidak selalu auto-play depending on browser policies; GDrive preview biasanya memerlukan klik play
+    }
+
+    function closeModalFunc() {
+      modalBackdrop.style.display = 'none';
+      modalBackdrop.setAttribute('aria-hidden', 'true');
+      // stop video by resetting src (prevents audio continuing)
+      const src = gdrivePlayer.getAttribute('src');
+      gdrivePlayer.setAttribute('src', '');
+      // small delay then restore src so video is ready next open
+      setTimeout(() => gdrivePlayer.setAttribute('src', src), 200);
+    }
+
+    openTutorial.addEventListener('click', openModal);
+    closeModal.addEventListener('click', closeModalFunc);
+    modalBackdrop.addEventListener('click', (e) => { if (e.target === modalBackdrop) closeModalFunc(); });
+
+    // Accessibility: close modal with Esc
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modalBackdrop.style.display === 'flex') closeModalFunc(); });
+  </script>
 </body>
 </html>
