@@ -1,193 +1,224 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>User-Agent Generator Unlimited</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>User-Agent Generator — Variants Multi-Device</title>
   <style>
-    * { box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-    body { margin: 0; padding: 0; background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); color: #fff; display: flex; justify-content: center; align-items: center; height: 100vh; }
-    .container { background: rgba(255,255,255,0.08); backdrop-filter: blur(12px); border-radius: 16px; padding: 2rem; width: 92%; max-width: 720px; text-align: center; box-shadow: 0 0 25px rgba(0,0,0,0.45); }
-    h1 { margin-bottom: 0.25rem; font-weight: 600; }
-    p.lead { margin-top: 0; margin-bottom: 1rem; opacity: .9 }
-    .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: .6rem; }
-    select, button { width: 100%; padding: 0.85rem; border-radius: 8px; border: none; outline: none; font-size: 1rem; }
-    select { background: rgba(255,255,255,0.12); color: #fff; }
-    select option { color: #000; }
-    button.primary { background: #00adb5; color: #fff; cursor: pointer; transition: .25s; }
-    button.primary:hover { background: #03c6cf; }
-    .row { display: flex; gap: .6rem; margin-top: .6rem; }
-    .output { background: rgba(0,0,0,0.35); padding: 1rem; border-radius: 8px; word-break: break-all; margin-top: 1rem; font-size: 0.9rem; min-height: 64px; display:flex; align-items:center; justify-content:center }
-    .copy-btn { background: #393e46; color: #fff; border-radius: 8px; padding: 0.85rem; cursor: pointer; }
-    footer { margin-top: 1rem; font-size: 0.85rem; opacity: 0.85; display:flex; justify-content:space-between; align-items:center; gap:.5rem }
-    a.tutorial-link { color: #ffd166; cursor: pointer; text-decoration: underline; }
-
-    /* Modal styles */
-    .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; z-index: 9999; }
-    .modal { width: 95%; max-width: 900px; background: rgba(255,255,255,0.02); border-radius: 12px; padding: 0.75rem; box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
-    .modal-header { display:flex; justify-content:space-between; align-items:center; gap:.5rem; padding: .25rem .5rem; }
-    .modal-title { font-weight:600; }
-    .modal-close { background: transparent; border: none; color: #fff; font-size: 1.2rem; cursor: pointer; }
-    .modal-body { padding:.5rem; }
-    .video-wrap { position: relative; padding-top: 56.25%; /* 16:9 */ }
-    .video-wrap iframe { position: absolute; inset:0; width:100%; height:100%; border:0; border-radius:8px; }
-
-    @media (max-width:600px){ .controls { grid-template-columns: 1fr; } .row { flex-direction: column; } }
+    :root{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;}
+    body{display:flex;align-items:center;justify-content:center;min-height:100vh;background:#f6f8fa;padding:20px}
+    .card{width:100%;max-width:920px;background:white;padding:20px;border-radius:12px;box-shadow:0 6px 22px rgba(12,20,40,0.08)}
+    h1{margin:0 0 6px;font-size:20px}
+    p.sub{margin:0 0 14px;color:#556}
+    .controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+    button{padding:10px 14px;border-radius:8px;border:1px solid #e3e7ee;background:#fff;cursor:pointer}
+    button.primary{background:#111827;color:#fff;border:0}
+    .ua-box{background:#0b1220;color:#e6f0ff;padding:12px;border-radius:8px;font-family:monospace;white-space:pre-wrap}
+    .meta{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+    .small{font-size:13px;color:#6b7280}
+    .badge{background:#eef2ff;color:#3730a3;padding:6px 8px;border-radius:999px;font-weight:600}
+    .actions{display:flex;gap:8px}
+    label.switch{display:inline-flex;align-items:center;gap:8px}
+    textarea{width:100%;height:120px;margin-top:12px;padding:10px;border-radius:8px;border:1px solid #e6edf3;font-family:monospace}
+    footer{margin-top:16px;font-size:13px;color:#6b7280}
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>🧠 Unlimited User-Agent Generator</h1>
-    <p class="lead">Mengelabui Facebook AJG</p>
+  <div class="card">
+    <h1>User-Agent Generator — Multi-Device Variants (Non-Repeating)</h1>
+    <p class="sub">Sekarang generator akan membuat UA **bervariasi antar-device** (Samsung, Pixel, Xiaomi, OnePlus, Oppo, Realme, Moto, Infinix, Redmi, Vivo dll) — semua tetap punya **Android 15** dan pola WebKit/Chrome yang sesuai. Hasilnya unik tiap generate dan **tidak mengulang** selama sesi (disimpan di <code>sessionStorage</code>).</p>
 
     <div class="controls">
-      <select id="os">
-        <option value="Windows">Windows</option>
-        <option value="Mac OS">Mac OS</option>
-        <option value="Linux">Linux</option>
-        <option value="Android">Android</option>
-        <option value="iOS">iOS</option>
-      </select>
-
-      <select id="browser">
-        <option value="Chrome">Chrome</option>
-        <option value="Firefox">Firefox</option>
-        <option value="Safari">Safari</option>
-        <option value="Edge">Edge</option>
-        <option value="Opera">Opera</option>
-      </select>
+      <button id="generate" class="primary">Generate UA</button>
+      <button id="copy">Copy</button>
+      <button id="export">Export remaining (.txt)</button>
+      <button id="reset">Reset List</button>
+      <div style="flex:1"></div>
+      <label class="switch"><input type="checkbox" id="autoReset"><span class="small">Auto-reset when empty</span></label>
     </div>
 
-    <div class="row">
-      <button id="generate" class="primary">Generate User-Agent</button>
-      <button id="copy" class="copy-btn">Copy to Clipboard</button>
+    <div class="ua-box" id="uaBox">Tekan "Generate UA" untuk mulai.</div>
+
+    <div class="meta">
+      <div class="small">Sisa UA unik: <span id="remaining">—</span></div>
+      <div class="actions"><div class="badge" id="status">Ready</div></div>
     </div>
 
-    <div class="output" id="output">User-Agent akan muncul di sini...</div>
+    <textarea id="log" placeholder="Log (optional): menampilkan UA yang sudah di-generate..." readonly></textarea>
 
     <footer>
-      <span>© 2025 Unlimited UA Generator by Bangdit 😎</span>
-      <!-- tutorial link opens modal -->
-      <a class="tutorial-link" id="openTutorial">Tutorial (lihat video)</a>
+      Notes: Pool UA dibuat dinamis dari kombinasi device models + build strings + variasi Chrome minor version. Semua UA masih mempertahankan struktur seperti sumber asli yang lo kasih.
     </footer>
   </div>
 
-  <!-- Modal: tutorial video (Google Drive embed) -->
-  <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-      <div class="modal-header">
-        <div class="modal-title" id="modalTitle">Tutorial: Cara pakai User-Agent Generator</div>
-        <button class="modal-close" id="closeModal" aria-label="Close">✕</button>
-      </div>
-      <div class="modal-body">
-        <div class="video-wrap">
-          <!-- GANTI `YOUR_DRIVE_FILE_ID_HERE` DENGAN ID FILE GDRIVE KAMU -->
-          <!-- Format embed Google Drive: https://drive.google.com/file/d/FILE_ID/preview -->
-          <iframe id="gdrivePlayer" src="https://drive.google.com/file/d/1eJ1xCf5YsuiyJJuvBrpMiVYNI1Vm8RQl/preview" allow="autoplay; encrypted-media" allowfullscreen title="Tutorial"></iframe>
-        </div>
-      </div>
-    </div>
-  </div>
+<script>
+(() => {
+  // Base pattern user gave — kita pertahankan strukturnya
+  // Contoh sumber: Mozilla/5.0 (Linux; Android 15; V2318 Build/AP3A.240905.015.A2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.7499.15 Mobile Safari/537.36
 
-  <script>
-    const output = document.getElementById('output');
-    const generateBtn = document.getElementById('generate');
-    const copyBtn = document.getElementById('copy');
-    const generatedSet = new Set(); // simpan UA yang sudah dibuat agar tidak duplikat
+  const KEY = 'ua_gen_multi_remaining_v2';
 
-    const randomFloat = (min, max) => (Math.random() * (max - min) + min).toFixed(1);
-    const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
-    const randomBuild = () => Math.random().toString(36).substring(2, 10).toUpperCase();
+  // Daftar device yang beragam (jangan fokus cuma 1 brand)
+  const DEVICE_CODES = [
+    'SM-G998B', 'V2318', 'Pixel 8 Pro', 'Redmi Note 13 Pro+', 'X6850', 'OnePlus 12', 'OPR-1', 'Xiaomi 14', 'Realme GT5', 'moto edge 50', 'Poco X6', 'OPPO Find X7', 'Vivo V29', 'Samsung SM-S918B', 'SM-A536E', 'SM-F936B', 'Nokia X30', 'Sharp Aquos R8', 'HONOR 90', 'Asus ROG Phone 8'
+  ];
 
-    function generateUserAgent(os, browser) {
-      const ver = {
-        Chrome: randomFloat(100, 130),
-        Firefox: randomFloat(80, 125),
-        Safari: randomFloat(13, 17),
-        Edge: randomFloat(90, 130),
-        Opera: randomFloat(80, 110)
-      };
-
-      let ua = '';
-
-      switch (os) {
-        case 'Windows':
-          ua = `Mozilla/5.0 (Windows NT ${randomFloat(6.1, 10.0)}; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) ${browser}/${ver[browser]}.${randomInt(1000,9999)} Safari/537.36`;
-          break;
-        case 'Mac OS':
-          ua = `Mozilla/5.0 (Macintosh; Intel Mac OS X 10_${randomInt(13, 15)}_${randomInt(0, 9)}) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/${ver[browser]} Safari/605.1.15`;
-          break;
-        case 'Linux':
-          ua = `Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) ${browser}/${ver[browser]}.${randomInt(100,999)} Safari/537.36`;
-          break;
-        case 'Android':
-          ua = `Mozilla/5.0 (Linux; Android ${randomInt(7, 14)}; ${['Pixel','Samsung','Xiaomi','Realme','Oppo'][randomInt(0,4)]} ${randomInt(1,10)}) AppleWebKit/537.36 (KHTML, like Gecko) ${browser}/${ver[browser]}.${randomInt(100,999)} Mobile Safari/537.36`;
-          break;
-        case 'iOS':
-          ua = `Mozilla/5.0 (iPhone; CPU iPhone OS ${randomInt(13,18)}_${randomInt(0,9)} like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/${ver[browser]} Mobile/${randomBuild()} Safari/604.1`;
-          break;
-      }
-      return ua;
+  // Build token generator (randomize short segments but keep plausibility)
+  function randomBuild(){
+    // pattern like AP3A.240905.015.A2 -> keep AP3A + date-like + patch + suffix
+    const prefix = ['AP3A','AP4B','BP2C','CP1D'];
+    const date = () => {
+      // generate plausible date YYMMDD between 240101 and 240930
+      const yy = '24';
+      const mm = String(Math.floor(Math.random()*9)+1).padStart(2,'0');
+      const dd = String(Math.floor(Math.random()*28)+1).padStart(2,'0');
+      return yy+mm+dd;
     }
+    const patch = String(Math.floor(Math.random()*200)+1).padStart(3,'0');
+    const suffix = String.fromCharCode(65 + Math.floor(Math.random()*26)) + (Math.floor(Math.random()*5)+1);
+    return `${prefix[Math.floor(Math.random()*prefix.length)]}.${date()}.${patch}.${suffix}`;
+  }
 
-    function getUniqueUserAgent(os, browser) {
-      let ua;
-      let tries = 0;
-      do {
-        ua = generateUserAgent(os, browser);
-        tries++;
-      } while (generatedSet.has(ua) && tries < 1000);
-      generatedSet.add(ua);
-      return ua;
-    }
+  function chromeVersion(){
+    // Chrome/143.0.xxxx.yy — vary xxxx and yy
+    const build = String(Math.floor(Math.random()*9000)+7000); // 7000-15999
+    const patch = String(Math.floor(Math.random()*90)+10); // 10-99
+    return `143.0.${build}.${patch}`;
+  }
 
-    generateBtn.addEventListener('click', () => {
-      const os = document.getElementById('os').value;
-      const browser = document.getElementById('browser').value;
-      const ua = getUniqueUserAgent(os, browser);
-      output.textContent = ua;
-    });
+  function makeUA(device){
+    const build = randomBuild();
+    const chrome = chromeVersion();
+    // ensure device token doesn't contain parentheses
+    const safeDevice = device.replace(/[()]/g,'').trim();
+    return `Mozilla/5.0 (Linux; Android 15; ${safeDevice} Build/${build}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/${chrome} Mobile Safari/537.36`;
+  }
 
-    copyBtn.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(output.textContent);
-        copyBtn.textContent = '✅ Copied!';
-        setTimeout(() => (copyBtn.textContent = 'Copy to Clipboard'), 1500);
-      } catch (e) {
-        copyBtn.textContent = '⚠️ Gagal copy';
-        setTimeout(() => (copyBtn.textContent = 'Copy to Clipboard'), 1500);
+  // Build a pool by combining devices and generating multiple variants each
+  function buildPool(){
+    const pool = [];
+    DEVICE_CODES.forEach(d => {
+      const variants = Math.floor(Math.random()*8) + 6; // 6-13 variants per device
+      for(let i=0;i<variants;i++){
+        pool.push(makeUA(d));
       }
     });
+    // dedupe just in case
+    return Array.from(new Set(pool));
+  }
 
-    // --- Modal logic for tutorial ---
-    const openTutorial = document.getElementById('openTutorial');
-    const modalBackdrop = document.getElementById('modalBackdrop');
-    const closeModal = document.getElementById('closeModal');
-    const gdrivePlayer = document.getElementById('gdrivePlayer');
-
-    function openModal() {
-      // jika pengguna belum meletakkan ID GDrive, beri feedback lewat src placeholder
-      modalBackdrop.style.display = 'flex';
-      modalBackdrop.setAttribute('aria-hidden', 'false');
-      // autoplay tidak selalu auto-play depending on browser policies; GDrive preview biasanya memerlukan klik play
+  // session storage helpers
+  const el = id => document.getElementById(id);
+  function saveRemaining(arr){
+    sessionStorage.setItem(KEY, JSON.stringify(arr));
+  }
+  function loadRemaining(){
+    try{
+      const raw = sessionStorage.getItem(KEY);
+      if(!raw) return buildPool();
+      const parsed = JSON.parse(raw);
+      if(!Array.isArray(parsed) || parsed.length === 0) return buildPool();
+      return parsed;
+    }catch(e){
+      return buildPool();
     }
+  }
 
-    function closeModalFunc() {
-      modalBackdrop.style.display = 'none';
-      modalBackdrop.setAttribute('aria-hidden', 'true');
-      // stop video by resetting src (prevents audio continuing)
-      const src = gdrivePlayer.getAttribute('src');
-      gdrivePlayer.setAttribute('src', '');
-      // small delay then restore src so video is ready next open
-      setTimeout(() => gdrivePlayer.setAttribute('src', src), 200);
+  let remaining = loadRemaining();
+  let generated = [];
+
+  function updateUI(msg){
+    el('remaining').textContent = remaining.length;
+    el('status').textContent = msg || 'Ready';
+  }
+
+  function pickRandom(){
+    if(remaining.length === 0) return null;
+    const i = Math.floor(Math.random() * remaining.length);
+    const ua = remaining.splice(i,1)[0];
+    generated.unshift(ua);
+    if(generated.length > 200) generated.pop();
+    saveRemaining(remaining);
+    updateLog();
+    return ua;
+  }
+
+  function updateLog(){
+    el('log').value = generated.slice(0,50).join('
+');
+  }
+
+  el('generate').addEventListener('click', ()=>{
+    if(remaining.length === 0){
+      if(el('autoReset').checked){
+        remaining = buildPool();
+        saveRemaining(remaining);
+        el('status').textContent = 'Auto-reset';
+      } else {
+        el('uaBox').textContent = 'Semua UA sudah dipakai. Tekan Reset untuk mengisi ulang.';
+        updateUI('Empty');
+        return;
+      }
     }
+    const ua = pickRandom();
+    if(ua){
+      el('uaBox').textContent = ua;
+      el('status').textContent = 'Generated';
+    } else {
+      el('uaBox').textContent = 'Gagal generate.';
+    }
+    updateUI();
+  });
 
-    openTutorial.addEventListener('click', openModal);
-    closeModal.addEventListener('click', closeModalFunc);
-    modalBackdrop.addEventListener('click', (e) => { if (e.target === modalBackdrop) closeModalFunc(); });
+  el('copy').addEventListener('click', async ()=>{
+    const txt = el('uaBox').textContent || '';
+    if(!txt || txt.includes('Tekan')) return;
+    try{
+      await navigator.clipboard.writeText(txt);
+      el('status').textContent = 'Copied ✔';
+      setTimeout(()=>updateUI('Ready'),900);
+    }catch(err){
+      el('status').textContent = 'Copy failed';
+    }
+  });
 
-    // Accessibility: close modal with Esc
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modalBackdrop.style.display === 'flex') closeModalFunc(); });
-  </script>
+  el('reset').addEventListener('click', ()=>{
+    if(confirm('Reset semua UA jadi belum dipakai lagi?')){
+      remaining = buildPool();
+      saveRemaining(remaining);
+      generated = [];
+      el('uaBox').textContent = 'List telah di-reset. Tekan Generate untuk mulai lagi.';
+      updateLog();
+      updateUI('Reset');
+    }
+  });
+
+  el('export').addEventListener('click', ()=>{
+    if(remaining.length === 0){
+      alert('Tidak ada UA tersisa untuk diekspor. Reset terlebih dahulu.');
+      return;
+    }
+    const blob = new Blob([remaining.join('
+')], {type: 'text/plain'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'remaining_user_agents.txt';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    el('status').textContent = 'Exported';
+    setTimeout(()=>updateUI('Ready'),900);
+  });
+
+  // init ui
+  updateUI();
+  if(remaining.length > 0){
+    el('uaBox').textContent = 'Pool UA siap. Tekan Generate untuk mengambil UA unik.';
+  }
+  updateLog();
+})();
+</script>
 </body>
 </html>
